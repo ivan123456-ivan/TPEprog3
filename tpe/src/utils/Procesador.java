@@ -1,23 +1,24 @@
-import java.time.LocalDate;
+package utils;
+
 
 public class Procesador {
-    private int codigo;
+    private String codigo;
     private String id;
     private boolean esta_refrigerado;
-    private LocalDate anio_funcionamiento;
+    private int anio_funcionamiento;
 
-    public Procesador(int codigo, String id, boolean esta_refrigerado, LocalDate anio_funcionamiento) {
+    public Procesador(String codigo, String id, boolean esta_refrigerado, int anio_funcionamiento) {
         this.codigo = codigo;
         this.id = id;
         this.esta_refrigerado = esta_refrigerado;
         this.anio_funcionamiento = anio_funcionamiento;
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 
@@ -37,11 +38,11 @@ public class Procesador {
         this.esta_refrigerado = esta_refrigerado;
     }
 
-    public LocalDate getAnio_funcionamiento() {
+    public int getAnio_funcionamiento() {
         return anio_funcionamiento;
     }
 
-    public void setAnio_funcionamiento(LocalDate anio_funcionamiento) {
+    public void setAnio_funcionamiento(int anio_funcionamiento) {
         this.anio_funcionamiento = anio_funcionamiento;
     }
 }

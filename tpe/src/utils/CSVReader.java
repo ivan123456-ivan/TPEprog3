@@ -6,12 +6,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class CSVReader {
 	private LinkedList<Tarea> tareas;
 	private LinkedList<Procesador> procesadores;
 
 	public CSVReader() {
+		this.procesadores=new LinkedList<Procesador>();
+		this.tareas=new LinkedList<Tarea>();
 	}
 	
 	public void readTasks(String taskPath) {
@@ -27,8 +30,10 @@ public class CSVReader {
 			String nombre = line[1].trim();
 			Integer tiempo = Integer.parseInt(line[2].trim());
 			Boolean critica = Boolean.parseBoolean(line[3].trim());
-			Integer prioridad = Integer.parseInt(line[4].trim()); // cómo guardo estos datos??
+			Integer prioridad = Integer.parseInt(line[4].trim());
+			 // cómo guardo estos datos??
 			// Aca instanciar lo que necesiten en base a los datos leidos
+			this.tareas.add(new Tarea(tiempo,nombre,id,critica,prioridad));
 		}
 		
 	}
@@ -47,6 +52,7 @@ public void readProcessors(String processorPath) {
 			Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
 			Integer anio = Integer.parseInt(line[3].trim());
 			// Aca instanciar lo que necesiten en base a los datos leidos
+			this.procesadores.add(new Procesador(codigo, id, refrigerado, anio));
 		}
 		
 	}
@@ -76,6 +82,13 @@ public void readProcessors(String processorPath) {
 		}
 		
 		return lines;
+	}
+
+	public List<Tarea> getTareas(){
+		return new LinkedList<Tarea>(this.tareas);
+	}
+	public List<Procesador> getProcesadores(){
+		return new LinkedList<Procesador>(this.procesadores);
 	}
 	
 }

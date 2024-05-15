@@ -1,14 +1,28 @@
+package utils;
 
 public class Tarea {
     private int tiempo_ejecucion;
     private String nombre, id;
     private boolean es_critica;
+    private int prioridad;
 
-    public Tarea(int tiempo_ejecucion, String nombre, String id, boolean es_critica) {
+
+
+    public Tarea(int tiempo_ejecucion, String nombre, String id, boolean es_critica, int prioridad) {
         this.tiempo_ejecucion = tiempo_ejecucion;
         this.nombre = nombre;
         this.id = id;
         this.es_critica = es_critica;
+        this.prioridad = prioridad;
+    }
+
+
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(int prioridad) {
+        this.prioridad = prioridad;
     }
 
     public int getTiempo_ejecucion() {
