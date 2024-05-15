@@ -56,4 +56,12 @@ public class Tarea {
     public void setEs_critica(boolean es_critica) {
         this.es_critica = es_critica;
     }
+
+
+    @Override
+    public String toString() {
+        return "Tarea [id="+ id +"tiempo_ejecucion=" + tiempo_ejecucion + ", nombre=" + nombre + ", es_critica="
+                + es_critica + ", prioridad=" + prioridad + "]";
+    }
+
 }
