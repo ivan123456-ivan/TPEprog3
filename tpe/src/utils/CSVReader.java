@@ -1,14 +1,15 @@
 package utils;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.LinkedList;
 
 public class CSVReader {
+	private LinkedList<Tarea> tareas;
+	private LinkedList<Procesador> procesadores;
 
 	public CSVReader() {
 	}
@@ -26,7 +27,7 @@ public class CSVReader {
 			String nombre = line[1].trim();
 			Integer tiempo = Integer.parseInt(line[2].trim());
 			Boolean critica = Boolean.parseBoolean(line[3].trim());
-			Integer prioridad = Integer.parseInt(line[4].trim());
+			Integer prioridad = Integer.parseInt(line[4].trim()); // cómo guardo estos datos??
 			// Aca instanciar lo que necesiten en base a los datos leidos
 		}
 		
