@@ -31,23 +31,38 @@ public class Servicios {
      * Expresar la complejidad temporal del servicio 1.
      */
 	public Tarea servicio1(String ID) {	
-		for (Tarea t : procesadores) {
-			
+		for (Tarea t : this.tareas) {
+			if(t.getId().equals(ID)){
+				return t;
+			}
 		}
+		return null;
 	}
     
     /*
      * Expresar la complejidad temporal del servicio 2.
      */
 	public List<Tarea> servicio2(boolean esCritica) {
-
+		LinkedList<Tarea> aux= new LinkedList<>();
+		for (Tarea t : this.tareas) {
+			if(t.isEs_critica()==esCritica){
+				aux.add(t);
+			}
+		}
+		return aux;
 	}
 
     /*
      * Expresar la complejidad temporal del servicio 3.
      */
 	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
-
+		LinkedList<Tarea> aux= new LinkedList<>();
+		for (Tarea t : this.tareas) {
+			if((prioridadInferior > t.getPrioridad())&&(prioridadSuperior < t.getPrioridad())){
+				aux.add(t);
+			}
+		}
+		return aux;
 	}
 
 }
