@@ -1,7 +1,9 @@
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeMap;
 
 import utils.CSVReader;
 import utils.Procesador;
@@ -13,9 +15,12 @@ import utils.Tarea;
  * de implementación.
  */
 public class Servicios {
-	private HashMap<String, Procesador> procesadores;
-	private HashMap<String, Tarea> tareas;
-
+	private HashMap<String, Procesador> procesadoresHash;//
+	private HashMap<String, Tarea> tareasHash;//se usa para servicio 1
+	private LinkedList<Tarea> tareasCriticasListtrue;//se usa para servicio 2
+	private LinkedList<Tarea> tareasCriticasListFalse;//se usa para servicio 2
+	private ??? tareasTree;
+	
 	/*
      * Expresar la complejidad temporal del constructor.
      */
@@ -24,56 +29,65 @@ public class Servicios {
 		CSVReader reader = new CSVReader();
 		reader.readProcessors(pathProcesadores);
 		reader.readTasks(pathTareas);
-		this.cargarProcesadores(reader.getProcesadores());
-		this.cargarTareas(reader.getTareas());
+		this.cargarProcesadoresHash(reader.getProcesadores());
+		this.cargarTareasHash(reader.getTareas());
+		this.cargartareasLinkedtrueAndFalse(reader.getTareas());
+		this.cargarTareaTree(reader.getTareas());
 	}
 
-	private void cargarProcesadores(List<Procesador> auxList){
+	private void cargarProcesadoresHash(List<Procesador> auxList){
 		for (Procesador procesador : auxList) {
-			this.procesadores.put(procesador.getId(), procesador);
+			this.procesadoresHash.put(procesador.getId(), procesador);
 		}
 	}
-	private void cargarTareas(List<Tarea> auxList){
+	private void cargarTareasHash(List<Tarea> auxList){
 		for (Tarea tarea : auxList) {
-			this.tareas.put(tarea.getId(), tarea);
+			this.tareasHash.put(tarea.getId(), tarea);
 		}
 	}
-
-	
+	private void cargartareasLinkedtrueAndFalse(List<Tarea> auxList){
+		for (Tarea tarea : auxList) {
+			if(tarea.isEs_critica()){
+				this.tareasCriticasListtrue.add(tarea);
+			}else{
+				this.tareasCriticasListFalse.add(tarea);
+			}
+		}
+	}
+	private void cargarTareaTree(List<Tarea> auxList){
+		for (Tarea tarea : auxList) {
+			this.tareasTree.put(tarea.getPrioridad(), tarea);
+		}
+	}
 	/*
      * Expresar la complejidad temporal del servicio 1.
 	 * al ser la estructura que usamos una hashmap la  complejidad del metodo es O(1)
      */
 	public Tarea servicio1(String ID) {	
-		return this.tareas.get(ID);
+		return this.tareasHash.get(ID);
 	}
     
-    /*
+    /*TENEMOS QUE CREAS UNA ESTRUCTURA PARA CADA SERVICIO PARA BUSCAR LA EFICIENCIA MAXIMA
      * Expresar la complejidad temporal del servicio 2.
-	 * la complejidad del metodo es O(n) siendo n la cantidad de elementos en la HashMap
+	 * 
      */
 	public List<Tarea> servicio2(boolean esCritica) {
-		LinkedList<Tarea> auxList = new LinkedList<Tarea>();
-		for (HashMap.Entry<String, Tarea> tarea : this.tareas.entrySet()) {
-			if(tarea.getValue().isEs_critica() == esCritica){
-				auxList.add(tarea.getValue());
-			}
+		if(esCritica){
+			return new LinkedList<Tarea>(this.tareasCriticasListtrue);
 		}
-		return auxList;
+		return new ArrayList<Tarea>(this.tareasCriticasListFalse);
 	}
 
-    /*
+    /*TENEMOS QUE CREAS UNA ESTRUCTURA PARA CADA SERVICIO PARA BUSCAR LA EFICIENCIA MAXIMA
      * Expresar la complejidad temporal del servicio 3.
 	 * la complejidad del metodo es O(n) siendo n la cantidad de elementos en la HaskMap
      */
 	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
-		LinkedList<Tarea> auxList = new LinkedList<Tarea>();
-		for (HashMap.Entry<String, Tarea> tarea : this.tareas.entrySet()) {
-			if((tarea.getValue().getPrioridad() >=prioridadInferior) && (tarea.getValue().getPrioridad()>= prioridadSuperior)){
-				auxList.add(tarea.getValue());
-			}
-		}
-		return auxList;
+		return new LinkedList<Tarea>(this.buscarPorPrioridad(prioridadInferior, prioridadSuperior));
+	}
+
+	private List<Tarea> buscarPorPrioridad(int prioridadInferior, int prioridadSuperior){
+
 	}
 
 }
