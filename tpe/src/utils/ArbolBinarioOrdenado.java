@@ -40,11 +40,17 @@ public class ArbolBinarioOrdenado {
     }
     private List<Tarea> getelementosrangoprioridad(int prioridadInferior, int prioridadSuperior,Nodo<Tarea>n){
         List<Tarea> aux = new LinkedList<Tarea>();
-        if(this.raiz!=null){
+        if(n==null){
             return null;
         }
-        if((this.raiz.getMayor() == null) && (this.raiz.getMenor() == null)){
-            
+        if((n.getKey() < prioridadSuperior) && (n.getKey()>prioridadInferior)){
+            aux.add(n.getValue());
         }
+        if(n.getKey()< prioridadSuperior){
+            aux.addAll(this.getelementosrangoprioridad(prioridadInferior, prioridadSuperior,n.getMayor()));
+        }else{
+            aux.addAll(this.getelementosrangoprioridad(prioridadInferior, prioridadSuperior, n.getMenor()));        
+        }
+        return aux;
     }
 }
