@@ -3,9 +3,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeMap;
 
-import utils.ArbolBinarioOrdenado;
+
+
 import utils.CSVReader;
 import utils.Procesador;
 import utils.Tarea;
@@ -18,9 +18,10 @@ import utils.Tarea;
 public class Servicios {
 	private HashMap<String, Procesador> procesadoresHash;//
 	private HashMap<String, Tarea> tareasHash;//se usa para servicio 1
+	private List<Tarea> listaTareas;
 	private LinkedList<Tarea> tareasCriticasListtrue;//se usa para servicio 2
 	private LinkedList<Tarea> tareasCriticasListFalse;//se usa para servicio 2
-	private ArbolBinarioOrdenado tareasTree;
+
 	
 	/*
      * Expresar la complejidad temporal del constructor.
@@ -30,10 +31,14 @@ public class Servicios {
 		CSVReader reader = new CSVReader();
 		reader.readProcessors(pathProcesadores);
 		reader.readTasks(pathTareas);
+		this.tareasHash = new HashMap<>();
+		this.procesadoresHash = new HashMap<>();
+		this.tareasCriticasListtrue = new LinkedList<>();
+		this.tareasCriticasListFalse = new LinkedList<>();
+		this.listaTareas = reader.getTareas();
 		this.cargarProcesadoresHash(reader.getProcesadores());
 		this.cargarTareasHash(reader.getTareas());
 		this.cargartareasLinkedtrueAndFalse(reader.getTareas());
-		this.cargarTareaTree(reader.getTareas());
 	}
 
 	private void cargarProcesadoresHash(List<Procesador> auxList){
@@ -55,11 +60,7 @@ public class Servicios {
 			}
 		}
 	}
-	private void cargarTareaTree(List<Tarea> auxList){
-		for (Tarea tarea : auxList) {
-			this.tareasTree.put(tarea.getPrioridad(), tarea);
-		}
-	}
+
 	/*
      * Expresar la complejidad temporal del servicio 1.
 	 * al ser la estructura que usamos una hashmap la  complejidad del metodo es O(1)
@@ -84,11 +85,12 @@ public class Servicios {
 	 * 
      */
 	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
-		return new LinkedList<Tarea>(this.buscarPorPrioridad(prioridadInferior, prioridadSuperior));
+		LinkedList<Tarea> aux = new LinkedList<Tarea>();
+		for (Tarea tarea : listaTareas) {
+			if (tarea.getPrioridad() > prioridadInferior && tarea.getPrioridad() < prioridadSuperior) {
+				aux.add(tarea);
+			}
+		}
+		return aux;
 	}
-
-	private List<Tarea> buscarPorPrioridad(int prioridadInferior, int prioridadSuperior){
-		return this.tareasTree.getelementosrangoprioridad( prioridadInferior, prioridadSuperior);
-	}
-
 }
