@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
 
+import utils.ArbolBinarioOrdenado;
 import utils.CSVReader;
 import utils.Procesador;
 import utils.Tarea;
@@ -19,7 +20,7 @@ public class Servicios {
 	private HashMap<String, Tarea> tareasHash;//se usa para servicio 1
 	private LinkedList<Tarea> tareasCriticasListtrue;//se usa para servicio 2
 	private LinkedList<Tarea> tareasCriticasListFalse;//se usa para servicio 2
-	private ??? tareasTree;
+	private ArbolBinarioOrdenado tareasTree;
 	
 	/*
      * Expresar la complejidad temporal del constructor.
@@ -80,14 +81,14 @@ public class Servicios {
 
     /*TENEMOS QUE CREAS UNA ESTRUCTURA PARA CADA SERVICIO PARA BUSCAR LA EFICIENCIA MAXIMA
      * Expresar la complejidad temporal del servicio 3.
-	 * la complejidad del metodo es O(n) siendo n la cantidad de elementos en la HaskMap
+	 * 
      */
 	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
 		return new LinkedList<Tarea>(this.buscarPorPrioridad(prioridadInferior, prioridadSuperior));
 	}
 
 	private List<Tarea> buscarPorPrioridad(int prioridadInferior, int prioridadSuperior){
-
+		return this.tareasTree.getelementosrangoprioridad( prioridadInferior, prioridadSuperior);
 	}
 
 }
