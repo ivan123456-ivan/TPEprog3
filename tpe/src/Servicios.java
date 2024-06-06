@@ -16,9 +16,9 @@ import utils.Tarea;
  * de implementación.
  */
 public class Servicios {
-	private HashMap<String, Procesador> procesadoresHash;//
+	private List<Procesador> procesadoresList;//
 	private HashMap<String, Tarea> tareasHash;//se usa para servicio 1
-	private List<Tarea> listaTareas;// se usa para el servicio 3
+	private List<Tarea> listaTareas;// se usa para el servicio 3 y backtraking
 	private LinkedList<Tarea> tareasCriticasListtrue;//se usa para servicio 2
 	private LinkedList<Tarea> tareasCriticasListFalse;//se usa para servicio 2
 
@@ -32,19 +32,17 @@ public class Servicios {
 		reader.readProcessors(pathProcesadores);
 		reader.readTasks(pathTareas);
 		this.tareasHash = new HashMap<>();
-		this.procesadoresHash = new HashMap<>();
+		this.procesadoresList = new LinkedList<>();
 		this.tareasCriticasListtrue = new LinkedList<>();
 		this.tareasCriticasListFalse = new LinkedList<>();
 		this.listaTareas = reader.getTareas();
-		this.cargarProcesadoresHash(reader.getProcesadores());
+		this.cargarProcesadoresList(reader.getProcesadores());
 		this.cargarTareasHash(reader.getTareas());
 		this.cargartareasLinkedtrueAndFalse(reader.getTareas());
 	}
 
-	private void cargarProcesadoresHash(List<Procesador> auxList){
-		for (Procesador procesador : auxList) {
-			this.procesadoresHash.put(procesador.getId(), procesador);
-		}
+	private void cargarProcesadoresList(List<Procesador> auxList){
+		this.procesadoresList.addAll(auxList);
 	}
 	private void cargarTareasHash(List<Tarea> auxList){
 		for (Tarea tarea : auxList) {
@@ -99,7 +97,26 @@ public class Servicios {
 	las tareas asignadas. El tiempo X sera un parametro establecido por el usuario al momento de 
 	solicitar la asignacion de las tareas a los procesadores.
 	*/
-	public List<Tarea> backtraking(int x){
-		
+	/*
+	 * ESTRATEGIA 1
+	 * vamos a consultar a cada unos de los procesadres y en cada consulta vamos a ver si tiene 
+	 * las carcteristicas necesarias para que se le 
+	 * agregue(tener el menor tiempo de ejecucion entre los procesadores,
+	 *  si la tarea es critica que su anterior no sea critica
+	 *  y no superar el tiempo estimado para los procesadore no refrigerados ) 
+	 * la tarea con la que estamos trabajando
+	 * en esta iteracion 
+	 * y asi hasta llegar al final de las tareas
+	*/
+	/* 
+	 * ESTRATEGIA 2
+	 * 
+	 */
+	public Solucion backtraking(int x){
+	
+
 	}
+	
+	
+
 }

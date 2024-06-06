@@ -7,24 +7,53 @@ public class Procesador {
     private String id;
     private boolean esta_refrigerado;
     private int anio_funcionamiento;
-    private LinkedList<Tarea> tareas_realizar;
-    private int cargaTarea;
-    private boolean ultimaCritica;
-
+    private LinkedList <Tarea> tareas_cargadas;//1
+    private int carga_total;//2
+    private boolean ultima_tarea_critica;//3
+    /*
+     * agregamos las variables 1,2,3 para poder cargar tareas a los procesadores 
+     * llevar la cuenta de la carga con la variable 2
+     * y saber si vamos a agregar dos tareas criticas seguidas
+    */
     public Procesador(String codigo, String id, boolean esta_refrigerado, int anio_funcionamiento) {
         this.codigo = codigo;
         this.id = id;
         this.esta_refrigerado = esta_refrigerado;
         this.anio_funcionamiento = anio_funcionamiento;
-        this.tareas_realizar= new LinkedList<>();
+        this.tareas_cargadas= new LinkedList<>();
+        this.carga_total = 0;
+        this.ultima_tarea_critica = false;
     }
-    
-    public void addTarea(Tarea t){
-        this.tareas_realizar.add(t);
+
+    public LinkedList<Tarea> getTareas_cargadas() {
+        return tareas_cargadas;
     }
-    public LinkedList<Tarea> getTarea(){
-        return new LinkedList<Tarea>(this.tareas_realizar);
+    /*
+     * al cargar una tarea lo que hacemos es recalcular todos los valores correspondientes 
+     * para asi no tener que recalcularlos cada vez que agragmos una tarea
+    */
+    public void setTareas_cargadas(Tarea t) {
+        this.tareas_cargadas.add(t);
+        this.setCarga_total(t.getTiempo_ejecucion());
+        this.setUltima_tarea_critica(t.isEs_critica());
     }
+
+    public int getCarga_total() {
+        return this.carga_total;
+    }
+
+    public void setCarga_total(int cargar) {
+        this.carga_total = this.carga_total + cargar;
+    }
+
+    public boolean isUltima_tarea_critica() {
+        return ultima_tarea_critica;
+    }
+
+    public void setUltima_tarea_critica(boolean ultima_tarea_critica) {
+        this.ultima_tarea_critica = ultima_tarea_critica;
+    }
+
 
     public String getCodigo() {
         return codigo;
