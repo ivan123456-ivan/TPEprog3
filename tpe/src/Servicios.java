@@ -18,7 +18,7 @@ import utils.Tarea;
 public class Servicios {
 	private HashMap<String, Procesador> procesadoresHash;//
 	private HashMap<String, Tarea> tareasHash;//se usa para servicio 1
-	private List<Tarea> listaTareas;
+	private List<Tarea> listaTareas;// se usa para el servicio 3
 	private LinkedList<Tarea> tareasCriticasListtrue;//se usa para servicio 2
 	private LinkedList<Tarea> tareasCriticasListFalse;//se usa para servicio 2
 
@@ -92,5 +92,14 @@ public class Servicios {
 			}
 		}
 		return aux;
+	}
+	/*
+	Primero, ningun procesador podra ejecutar 2 tareas criticas de forma consecutiva. 
+	Segundo, los procesadores no refrigerados no podran dedicar mas de X tiempo de ejecución a 
+	las tareas asignadas. El tiempo X sera un parametro establecido por el usuario al momento de 
+	solicitar la asignacion de las tareas a los procesadores.
+	*/
+	public List<Tarea> backtraking(int x){
+		
 	}
 }
