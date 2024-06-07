@@ -96,55 +96,5 @@ public class Servicios {
 		}
 		return aux;
 	}
-	/*
-	Primero, ningun procesador podra ejecutar 2 tareas criticas de forma consecutiva. 
-	Segundo, los procesadores no refrigerados no podran dedicar mas de X tiempo de ejecución a 
-	las tareas asignadas. El tiempo X sera un parametro establecido por el usuario al momento de 
-	solicitar la asignacion de las tareas a los procesadores.
-	*/
-	/*
-	 * ESTRATEGIA 
-	 * deberiamos imaginar a cada procesador como un arbol
-	 * que guarda tareas
-	 * para cada rama va a ir una tarea, luego se le va a agregar otra tarea dentro de las tareas
-	 * restantes, siempre tienendo en cuenta los parametros de ingreso preestablecidos
-	 * (que no se agreguen dos criticas consecutivas,que a los no refrigerados no se les agrege 
-	 * mas de x tiempo de procesamiento, )
-	 */
-	public Solucion backtraking(int x){
-		LinkedList <Procesador> porcAux = new LinkedList<>();
-		porcAux.addAll(this.procesadoresList);//inicializo una lista procesadores para no trabajar con los originales
-		LinkedList<Tarea> tareaAux= new LinkedList<>();
-		tareaAux.addAll(this.listaTareas);//inicializo una lista de tareas para no trabajar con los originales
-		for(int i =0 ; i<tareaAux.size(); i++){
-			this.backtraking(tareaAux, porcAux, x, 0);
-		}
-	}
-	private Procesador backtraking(LinkendList<Tarea> tareas, Linkedlist<Procesador> procesadores,int x,int tareaSeleccionada){
-		if(tareaSeleccionada == tareas.size()){
-			
-		}
-		if(){
-			
-		}
-	}
-	/* 
-	 * decide si agragr una tarea dada a un porcesador dado
-	 * y retorna el procesador en caso de agragar la tarea
-	 */
-	private boolean addTareaAProcesador(Tarea tarea,Procesador proc, int x ){
-		if((!proc.isUltima_tarea_critica()) || (!tarea.isEs_critica())){
-			if(proc.isEsta_refrigerado()){
-				return true;
-			}else{
-				if(proc.getCarga_total()+tarea.getTiempo_ejecucion() < x){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-
 
 }

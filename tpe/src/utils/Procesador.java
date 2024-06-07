@@ -1,14 +1,19 @@
 package utils;
 
+import java.util.LinkedList;
+
 public class Procesador {
     private String codigo;
     private String id;
     private boolean esta_refrigerado;
     private int anio_funcionamiento;
-    private int carga_total;//1
-    private boolean ultima_tarea_critica;//2
+    /* cada nodo agregado a la list seria un estado solucion posible dentro del problema */
+    private LinkedList<Tarea> tareas_cargadas;//1
+    private int carga_total;//2
+    private boolean ultima_tarea_critica;//3
     /*
-     * agregamos las variables 1,2 para poder cargar tareas a los procesadores 
+     * agregamos las variables 1,2,3 para poder cargar tareas a los procesadores 
+     * llevar la cuenta de la carga con la variable 2
      * y saber si vamos a agregar dos tareas criticas seguidas
     */
     public Procesador(String codigo, String id, boolean esta_refrigerado, int anio_funcionamiento) {
@@ -16,10 +21,23 @@ public class Procesador {
         this.id = id;
         this.esta_refrigerado = esta_refrigerado;
         this.anio_funcionamiento = anio_funcionamiento;
+        this.tareas_cargadas= new LinkedList<>();
         this.carga_total = 0;
         this.ultima_tarea_critica = false;
     }
 
+    public LinkedList<Tarea> getTareas_cargadas() {
+        return tareas_cargadas;
+    }
+    /*
+     * al cargar una tarea lo que hacemos es recalcular todos los valores correspondientes 
+     * para asi no tener que recalcularlos cada vez que agragmos una tarea
+    */
+    public void addTareas_cargadas(Tarea tarea) {
+        this.tareas_cargadas.add(tarea);
+        this.setCarga_total(tarea.getTiempo_ejecucion());
+        this.setUltima_tarea_critica(tarea.isEs_critica());
+    }
 
     public int getCarga_total() {
         return this.carga_total;
