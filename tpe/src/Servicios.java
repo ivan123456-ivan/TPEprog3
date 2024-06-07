@@ -18,7 +18,7 @@ import utils.Tarea;
 public class Servicios {
 	private List<Procesador> procesadoresList;//
 	private HashMap<String, Tarea> tareasHash;//se usa para servicio 1
-	private List<Tarea> listaTareas;// se usa para el servicio 3 y backtraking
+	private LinkedList<Tarea> listaTareas;// se usa para el servicio 3 y backtraking
 	private LinkedList<Tarea> tareasCriticasListtrue;//se usa para servicio 2
 	private LinkedList<Tarea> tareasCriticasListFalse;//se usa para servicio 2
 
@@ -35,10 +35,15 @@ public class Servicios {
 		this.procesadoresList = new LinkedList<>();
 		this.tareasCriticasListtrue = new LinkedList<>();
 		this.tareasCriticasListFalse = new LinkedList<>();
-		this.listaTareas = reader.getTareas();
+		this.cargaraListaTarea(reader.getTareas());
 		this.cargarProcesadoresList(reader.getProcesadores());
 		this.cargarTareasHash(reader.getTareas());
 		this.cargartareasLinkedtrueAndFalse(reader.getTareas());
+	}
+	private void cargaraListaTarea(List<Tarea> aux){
+		for (Tarea tarea : aux) {
+			this.listaTareas.add(tarea);
+		}
 	}
 
 	private void cargarProcesadoresList(List<Procesador> auxList){
@@ -98,25 +103,40 @@ public class Servicios {
 	solicitar la asignacion de las tareas a los procesadores.
 	*/
 	/*
-	 * ESTRATEGIA 1
-	 * vamos a consultar a cada unos de los procesadres y en cada consulta vamos a ver si tiene 
-	 * las carcteristicas necesarias para que se le 
-	 * agregue(tener el menor tiempo de ejecucion entre los procesadores,
-	 *  si la tarea es critica que su anterior no sea critica
-	 *  y no superar el tiempo estimado para los procesadore no refrigerados ) 
-	 * la tarea con la que estamos trabajando
-	 * en esta iteracion 
-	 * y asi hasta llegar al final de las tareas
-	*/
-	/* 
-	 * ESTRATEGIA 2
-	 * 
+	 * ESTRATEGIA 
+	 * deberiamos imaginar a cada procesador como un arbol
+	 * que guarda tareas
+	 * para cada rama va a ir una tarea, luego se le va a agregar otra tarea dentro de las tareas
+	 * restantes, siempre tienendo en cuenta los parametros de ingreso preestablecidos
+	 * (que no se agreguen dos criticas consecutivas,que a los no refrigerados no se les agrege 
+	 * mas de x tiempo de procesamiento, )
 	 */
-	public Solucion backtraking(int x){
-	
-
+	public List<Procesador> backtraking(int x){
+		LinkedList <Procesador> porcAux = new LinkedList<>();
+		porcAux.addAll(this.procesadoresList);//inicializo una lista procesadores para no trabajar con los originales
+		LinkedList<Tarea> tareaAux= new LinkedList<>();
+		tareaAux.addAll(this.listaTareas);//inicializo una lista de tareas para no trabajar con los originales
+		
 	}
-	
-	
+	/* 
+	 * decide si agragr una tarea dada a un porcesador dado
+	 * y retorna el procesador en caso de agragar la tarea
+	 */
+	private Procesador addTareaAProcesador(Tarea tarea,Procesador proc, int x ){
+		if((!proc.isUltima_tarea_critica()) || (!tarea.isEs_critica())){
+			if(proc.isEsta_refrigerado()){
+				proc.addTareas_cargadas(tarea);;
+				return proc;
+			}else{
+				if(proc.getCarga_total()+tarea.getTiempo_ejecucion() < x){
+					proc.addTareas_cargadas(tarea);
+					return proc;
+				}
+			}
+		}
+		return null;
+	}
+
+
 
 }

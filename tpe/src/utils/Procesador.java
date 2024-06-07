@@ -7,7 +7,8 @@ public class Procesador {
     private String id;
     private boolean esta_refrigerado;
     private int anio_funcionamiento;
-    private LinkedList <Tarea> tareas_cargadas;//1
+    /* cada nodo agregado a la list seria un estado solucion posible dentro del problema */
+    private LinkedList <Nodo<Tarea>> tareas_cargadas;//1
     private int carga_total;//2
     private boolean ultima_tarea_critica;//3
     /*
@@ -25,17 +26,18 @@ public class Procesador {
         this.ultima_tarea_critica = false;
     }
 
-    public LinkedList<Tarea> getTareas_cargadas() {
+    public LinkedList<Nodo<Tarea>> getTareas_cargadas() {
         return tareas_cargadas;
     }
     /*
      * al cargar una tarea lo que hacemos es recalcular todos los valores correspondientes 
      * para asi no tener que recalcularlos cada vez que agragmos una tarea
     */
-    public void setTareas_cargadas(Tarea t) {
+    public void addTareas_cargadas(Tarea tarea) {
+        Nodo<Tarea> t = new Nodo<Tarea>(tarea);
         this.tareas_cargadas.add(t);
-        this.setCarga_total(t.getTiempo_ejecucion());
-        this.setUltima_tarea_critica(t.isEs_critica());
+        this.setCarga_total(t.getValue().getTiempo_ejecucion());
+        this.setUltima_tarea_critica(t.getValue().isEs_critica());
     }
 
     public int getCarga_total() {

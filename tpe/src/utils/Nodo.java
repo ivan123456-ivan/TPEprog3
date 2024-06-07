@@ -1,17 +1,14 @@
 package utils;
 
 public class Nodo<T> {
-    private T value;
-    private int key;
-    private Nodo<T> mayor;
-    private Nodo<T> menor;
+    private T value; /*tarea  contenida en el nodo*/
+    private Nodo<Tarea> tareaAgregada;/* esto es para agregar varios estados 
+    solucion desde un nodo solo hasta los nodos que se deseen */
     
-        public Nodo (T value, int key){
-            this.value = value;
-            this.key =key;
-            this.mayor = null;
-            this.menor = null;
-        }
+    public Nodo (T value){
+        this.value = value;
+        this.tareaAgregada = null;
+    }
 
     public T getValue() {
         return value;
@@ -21,24 +18,12 @@ public class Nodo<T> {
         this.value = value;
     }
 
-    public int getKey() {
-        return key;
+    public void addNodoTarea(Tarea t){
+        this.tareaAgregada = new Nodo<Tarea>(t);
     }
-
-    public Nodo<T> getMayor() {
-        return mayor;
-    }
-
-    public void setMayor(Nodo<T> mayor) {
-        this.mayor = mayor;
-    }
-
-    public Nodo<T> getMenor() {
-        return menor;
-    }
-
-    public void setMenor(Nodo<T> menor) {
-        this.menor = menor;
+    
+    public Nodo<Tarea> getNextNodoTarea(){
+        return this.tareaAgregada;
     }
 
 }
