@@ -111,30 +111,38 @@ public class Servicios {
 	 * (que no se agreguen dos criticas consecutivas,que a los no refrigerados no se les agrege 
 	 * mas de x tiempo de procesamiento, )
 	 */
-	public List<Procesador> backtraking(int x){
+	public Solucion backtraking(int x){
 		LinkedList <Procesador> porcAux = new LinkedList<>();
 		porcAux.addAll(this.procesadoresList);//inicializo una lista procesadores para no trabajar con los originales
 		LinkedList<Tarea> tareaAux= new LinkedList<>();
 		tareaAux.addAll(this.listaTareas);//inicializo una lista de tareas para no trabajar con los originales
-		
+		for(int i =0 ; i<tareaAux.size(); i++){
+			this.backtraking(tareaAux, porcAux, x, 0);
+		}
+	}
+	private Procesador backtraking(LinkendList<Tarea> tareas, Linkedlist<Procesador> procesadores,int x,int tareaSeleccionada){
+		if(tareaSeleccionada == tareas.size()){
+			
+		}
+		if(){
+			
+		}
 	}
 	/* 
 	 * decide si agragr una tarea dada a un porcesador dado
 	 * y retorna el procesador en caso de agragar la tarea
 	 */
-	private Procesador addTareaAProcesador(Tarea tarea,Procesador proc, int x ){
+	private boolean addTareaAProcesador(Tarea tarea,Procesador proc, int x ){
 		if((!proc.isUltima_tarea_critica()) || (!tarea.isEs_critica())){
 			if(proc.isEsta_refrigerado()){
-				proc.addTareas_cargadas(tarea);;
-				return proc;
+				return true;
 			}else{
 				if(proc.getCarga_total()+tarea.getTiempo_ejecucion() < x){
-					proc.addTareas_cargadas(tarea);
-					return proc;
+					return true;
 				}
 			}
 		}
-		return null;
+		return false;
 	}
 
 
