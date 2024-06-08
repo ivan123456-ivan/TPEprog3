@@ -1,6 +1,6 @@
-
-
+package utils;
 import java.util.LinkedList;
+import java.util.List;
 
 import utils.Procesador;
 import utils.Tarea;
@@ -10,23 +10,26 @@ import utils.Tarea;
 	las tareas asignadas. El tiempo X sera un parametro establecido por el usuario al momento de 
 	solicitar la asignacion de las tareas a los procesadores.
 	*/
-public class backtraking {
+public class Backtraking {
     private int estados;
-	private int maxCriticos;
+	//private int maxCriticos;
 	private int minTiempo;
-    private LinkedList<Procesador> procesadorList;
+    private List<Procesador> procesadorList;
     private LinkedList<Integer>solucionList; //pos lista = pos tarea, valor = pos procesador
     private LinkedList<Tarea> tareaList;
 
 
 
 
-	public backtraking(LinkedList<Procesador> procesadorList, LinkedList<Integer> solucionList, LinkedList<Tarea> tareaList, int maxCriticos) {
+	public Backtraking(List<Procesador> procesadorList, List<Tarea> tareaList) {
         this.estados= 0;
         this.procesadorList= procesadorList;
-        this.solucionList= solucionList;
-        this.tareaList= tareaList;
-		this.maxCriticos= maxCriticos;
+        this.solucionList= new LinkedList<>();
+		for(int i= 0; i < this.procesadorList.size(); i++) {
+			this.solucionList.add(-1);
+		}
+        this.tareaList= new LinkedList<Tarea>(tareaList);
+		//this.maxCriticos= 0;
 		this.minTiempo= 0;
     }
 
@@ -48,17 +51,17 @@ public class backtraking {
 		return true;
 	}
 
-	public boolean foundSolution(int x) {  //void o boolean?
+	public boolean foundSolution(int maxC, int maxT) {  //void o boolean?
 		LinkedList<Integer> procs0 = new LinkedList<>(); // lista de procesadores con un contador en 0 para cada uno
 		for(int i= 0; i < this.procesadorList.size(); i++) {
-			procs0.add(-1);
+			procs0.add(0);
 		}
 		LinkedList<Integer> solutionTemp= new LinkedList<>();
 		for(int i= 0; i < this.procesadorList.size(); i++) {
-			solutionTemp.add(0);
+			solutionTemp.add(-1);
 		}
-
-		Solution(solutionTemp, this.tareaList, x, procs0, procs0);
+		//LinkedList tareasTemp= new LinkedList<Tarea>(this.tareaList);
+		solution(solutionTemp, this.tareaList, procs0, procs0, maxC, maxT);
 		if (this.estados != 0) {
 			return true;
 		} else {
@@ -66,11 +69,13 @@ public class backtraking {
 		}
 	}
 
-	private void Solution(LinkedList<Integer> solutionTemp, LinkedList<Tarea> tareasTemp, int X, LinkedList<Integer> criticXproc, LinkedList<Integer> tiempoXproc) {
-		if (tareasTemp != null) {
+	private void solution(LinkedList<Integer> solutionTemp, LinkedList<Tarea> tareasTemp, LinkedList<Integer> criticXproc, LinkedList<Integer> tiempoXproc, int maxC, int maxT) {
+		if (tareasTemp.size()!= 1) {
+		//if (tareasTemp != null) {
 			for(int i= 0; i < this.procesadorList.size(); i++) {
-				if (criticXproc.get(i)!= this.maxCriticos) {
-					solutionTemp.set(tareasTemp.size()-1, i);
+				if (criticXproc.get(i)!= maxC && (this.procesadorList.get(i).isEsta_refrigerado() || tiempoXproc.get(i)<= maxT)) {
+					System.out.println(tareasTemp.size());
+					solutionTemp.set((tareasTemp.size()-1), i);
 					//solutionTemp.add(i);
 					Tarea aux= tareasTemp.getLast();
 					if (aux.isEs_critica()) {
@@ -78,7 +83,7 @@ public class backtraking {
 					}
 					tareasTemp.removeLast();
 					tiempoXproc.set(i, tiempoXproc.get(i) + aux.getTiempo_ejecucion());
-					Solution(solutionTemp, tareasTemp, X, criticXproc, tiempoXproc);
+					solution(solutionTemp, tareasTemp, criticXproc, tiempoXproc, maxC, maxT);
 	
 					solutionTemp.set(tareasTemp.size()-1, -1);
 					//solutionTemp.add(i);
@@ -87,6 +92,7 @@ public class backtraking {
 						criticXproc.set(i, criticXproc.get(i) -1);
 					}
 					tiempoXproc.set(i, tiempoXproc.get(i) - aux.getTiempo_ejecucion());
+					
 				}
 			}
 		} else {
@@ -100,24 +106,6 @@ public class backtraking {
 				this.solucionList= solutionTemp;
 			}
 		}
-	}
-
-
-    /* 
-	 * decide si agragr una tarea dada a un porcesador dado
-	 * y retorna el procesador en caso de agragar la tarea
-	 */
-	private boolean addTareaAProcesador(Tarea tarea,Procesador proc, int x ){
-		if((!proc.isMaxTareasCriticas()) || (!tarea.isEs_critica())){
-			if(proc.isEsta_refrigerado()){
-				return true;
-			}else{
-				if(proc.getCarga_total()+tarea.getTiempo_ejecucion() < x){
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 }

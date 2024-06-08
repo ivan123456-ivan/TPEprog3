@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-
-
+import utils.Backtraking;
 import utils.CSVReader;
 import utils.Procesador;
 import utils.Tarea;
@@ -35,6 +34,7 @@ public class Servicios {
 		this.procesadoresList = new LinkedList<>();
 		this.tareasCriticasListtrue = new LinkedList<>();
 		this.tareasCriticasListFalse = new LinkedList<>();
+		this.listaTareas= new LinkedList<>();
 		this.cargaraListaTarea(reader.getTareas());
 		this.cargarProcesadoresList(reader.getProcesadores());
 		this.cargarTareasHash(reader.getTareas());
@@ -71,6 +71,10 @@ public class Servicios {
 	public Tarea servicio1(String ID) {	
 		return this.tareasHash.get(ID);
 	}
+
+	public List<Procesador> getProcesadores() {
+		return new LinkedList<Procesador>(this.procesadoresList);
+	}
     
     /*TENEMOS QUE CREAS UNA ESTRUCTURA PARA CADA SERVICIO PARA BUSCAR LA EFICIENCIA MAXIMA
      * Expresar la complejidad temporal del servicio 2.
@@ -95,6 +99,13 @@ public class Servicios {
 			}
 		}
 		return aux;
+	}
+
+	public List<Procesador> servicio_backtraking(int maxC, int maxT) {
+		Backtraking back= new Backtraking(this.procesadoresList, this.listaTareas);
+		back.foundSolution(maxC, maxT);
+		//back.doSolution();
+		return new LinkedList<>(this.procesadoresList);
 	}
 
 }
