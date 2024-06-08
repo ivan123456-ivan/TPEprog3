@@ -10,7 +10,8 @@ public class Procesador {
     /* cada nodo agregado a la list seria un estado solucion posible dentro del problema */
     private LinkedList<Tarea> tareas_cargadas;//1
     private int carga_total;//2
-    private boolean ultima_tarea_critica;//3
+    private boolean MaxTareasCriticas;//3
+    private final int MaxCriticas =2; 
     /*
      * agregamos las variables 1,2,3 para poder cargar tareas a los procesadores 
      * llevar la cuenta de la carga con la variable 2
@@ -23,7 +24,7 @@ public class Procesador {
         this.anio_funcionamiento = anio_funcionamiento;
         this.tareas_cargadas= new LinkedList<>();
         this.carga_total = 0;
-        this.ultima_tarea_critica = false;
+        this.MaxTareasCriticas = false;
     }
 
     public LinkedList<Tarea> getTareas_cargadas() {
@@ -36,7 +37,7 @@ public class Procesador {
     public void addTareas_cargadas(Tarea tarea) {
         this.tareas_cargadas.add(tarea);
         this.setCarga_total(tarea.getTiempo_ejecucion());
-        this.setUltima_tarea_critica(tarea.isEs_critica());
+        this.setMaxTareasCriticas();
     }
 
     public int getCarga_total() {
@@ -47,12 +48,22 @@ public class Procesador {
         this.carga_total = this.carga_total + cargar;
     }
 
-    public boolean isUltima_tarea_critica() {
-        return ultima_tarea_critica;
+    public boolean isMaxTareasCriticas() {
+        return MaxTareasCriticas;
     }
 
-    public void setUltima_tarea_critica(boolean ultima_tarea_critica) {
-        this.ultima_tarea_critica = ultima_tarea_critica;
+    public void setMaxTareasCriticas() {
+        int cont = 0;
+        for (Tarea tarea : tareas_cargadas) {
+            if(cont == this.MaxCriticas){
+                this.MaxTareasCriticas = true;
+            }else{
+                this.MaxTareasCriticas = false;
+            }
+            if(tarea.isEs_critica()){
+                cont ++;
+            }
+        }
     }
 
 
