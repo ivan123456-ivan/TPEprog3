@@ -18,15 +18,16 @@ import utils.Tarea;
 public class Servicios {
 	private LinkedList<Procesador> procesadoresList;//
 	private HashMap<String, Tarea> tareasHash;//se usa para servicio 1
-	private LinkedList<Tarea> listaTareas;// se usa para el servicio 3 y backtraking
+	private LinkedList<Tarea> listaTareas;// se usa para el servicio 3 
 	private LinkedList<Tarea> tareasCriticasListtrue;//se usa para servicio 2
 	private LinkedList<Tarea> tareasCriticasListFalse;//se usa para servicio 2
-	private Backtraking back;//= new Backtraking(this.procesadoresList, this.listaTareas);
+	private Backtraking back;
 	private Greedy greedy;
 
 	
 	/*
      * Expresar la complejidad temporal del constructor.
+	 * la complejidad del constructos sera O(n)
      */
 	public Servicios(String pathProcesadores, String pathTareas)
 	{
@@ -40,9 +41,8 @@ public class Servicios {
 		this.listaTareas= new LinkedList<>();
 		this.cargaraListaTarea(reader.getTareas());
 		this.cargarProcesadoresList(reader.getProcesadores());
-		this.cargarTareasHash(reader.getTareas());
-		this.cargartareasLinkedtrueAndFalse(reader.getTareas());
-		this.greedy = new Greedy(this.listaTareas, this.procesadoresList);
+		this.cargarTareasHash(this.listaTareas);
+		this.cargartareasLinkedtrueAndFalse(this.listaTareas);
 	}
 	private void cargaraListaTarea(List<Tarea> aux){
 		for (Tarea tarea : aux) {
@@ -80,9 +80,10 @@ public class Servicios {
 		return new LinkedList<Procesador>(this.procesadoresList);
 	}
     
-    /*TENEMOS QUE CREAS UNA ESTRUCTURA PARA CADA SERVICIO PARA BUSCAR LA EFICIENCIA MAXIMA
+    /*
      * Expresar la complejidad temporal del servicio 2.
-	 * 
+	 * la complejidad en la del metodo es O(1) ya que al tener ya los elementos precargados en tablas
+	 * se retornan directamenten sin hacer ningun tipo de busqueda
      */
 	public List<Tarea> servicio2(boolean esCritica) {
 		if(esCritica){
@@ -91,9 +92,11 @@ public class Servicios {
 		return new ArrayList<Tarea>(this.tareasCriticasListFalse);
 	}
 
-    /*TENEMOS QUE CREAS UNA ESTRUCTURA PARA CADA SERVICIO PARA BUSCAR LA EFICIENCIA MAXIMA
+    /*
      * Expresar la complejidad temporal del servicio 3.
-	 * 
+	 * la complejidad es O(n) n siendo la cantidad de elemtos que tiene las lista 
+	 * ya que se debe buscar en la totalidad de los elementos para sacar una respuesta concreta
+	 * y solida
      */
 	public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
 		LinkedList<Tarea> aux = new LinkedList<Tarea>();
@@ -105,13 +108,19 @@ public class Servicios {
 		return aux;
 	}
 
+	/* 
+		ESTRATEGIA Backtraking
+	 * Se recorre una lista de tareas temporal donde cada posicion corresponde a la misma posicion de la lista tareas, el valor que guarda esta lista temporal (solucionList) 
+	es la posicion de la lista procesadorList, cada tarea de la lista temporal es asignada en todos los procesadores que se permita de forma recursiva, donde hay un for que intenta
+	asignar la tarea actual a cada procesador y a su vez llamar al mismo metodo con la tarea siguiente, donde va a hacer lo mismo, de esta forma recorreria la asignacion de tareas como:
+	primera tarea hasta la ultima al procesador 1, luego la ultima a procesador 2,3,etc. luego vuelve a la anteultima tarea, donde pasa al procesador 2, luego llama a la ultima tarea y
+	prueva todos los procesadores denuevo etc 
+	 */
 	public List<Procesador> servicio_backtraking(int maxC, int maxT) {
 		this.back= new Backtraking(this.procesadoresList, this.listaTareas);
-		//back.foundSolution(maxC, maxT);
 		back.doSolution(maxC, maxT);
 		return new LinkedList<>(this.procesadoresList);
 	}
-
 	public Integer getEstadosBacktraking() {
 		if (back!= null) {
 			return back.getEstados();
@@ -125,8 +134,15 @@ public class Servicios {
 		}
 		return 0;
 	}
-
+	/* 
+	 * ESTRATEGIA Greedy 
+	 * por cada tarea se accede a un metodo que va a buscar entre todos los procesadores 
+	 * cual es el que tiene menos cargar y luego accede a otro metodo que confirna que 
+	 * sea posible ingresar la tarea en ese procesador,
+	 * luego la ingresa y sigrue el mismo proceso para las demas tareas 
+	 */
 	public boolean getSolucionGreedy(int x){
+		this.greedy = new Greedy(this.listaTareas, this.procesadoresList);
 		return this.greedy.getSolucion(x);
 
 	}
