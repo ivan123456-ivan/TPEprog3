@@ -98,4 +98,15 @@ public class Procesador {
     public void setAnio_funcionamiento(int anio_funcionamiento) {
         this.anio_funcionamiento = anio_funcionamiento;
     }
+
+    @Override
+    public String toString() {
+        return "Procesador [id=" + id + ", tareas_cargadas=" + tareas_cargadas + "]";
+    }
+
+    /* @Override
+    public String toString() {
+        return "Procesador [codigo=" + codigo + ", id=" + id + ", tareas_cargadas=" + tareas_cargadas + ", carga_total="
+                + carga_total + "]";
+    } */
 }

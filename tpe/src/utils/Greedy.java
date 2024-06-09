@@ -6,11 +6,25 @@ public class Greedy {
     private LinkedList<Tarea> tareasList;
     private LinkedList<Procesador> procesadoresList;
     private int estados;
+    private int MaxtiempoConseguido;
+
+    public int getMaxtiempoConseguido() {
+        return MaxtiempoConseguido;
+    }
+
+    private void setMaxtiempoConseguido() {
+        for (Procesador procesador : procesadoresList) {
+            if(procesador.getCarga_total()>this.MaxtiempoConseguido){
+                this.MaxtiempoConseguido = procesador.getCarga_total();
+            }
+        }
+    }
 
     public Greedy(LinkedList<Tarea> tareasList, LinkedList<Procesador> procesadoresList) {
         this.tareasList = tareasList;
         this.procesadoresList = procesadoresList;
         this.estados = 0;
+        this.MaxtiempoConseguido =-1;
     }
 
     public LinkedList<Tarea> getTareasList() {
@@ -43,44 +57,69 @@ public class Greedy {
      */
     private boolean greedy(int x){
         int punteroTarea = 0;
-        while (this.tareasList.size() < punteroTarea){
-        this.procesadoresList.get(this.getProcesadorMejorOpcion(this.tareasList.get(punteroTarea),x)).addTareas_cargadas(this.tareasList.get(punteroTarea));
+        while (this.tareasList.size() > punteroTarea){
+            int puenteroProcesador = this.getProcesadorMejorOpcion(this.tareasList.get(punteroTarea),x);
+            if(puenteroProcesador != -1){
+                this.procesadoresList.get(puenteroProcesador).addTareas_cargadas(this.tareasList.get(punteroTarea));
+            }else{
+                this.estados =0;
+                this.MaxtiempoConseguido=-1;
+                return false;
+            }
             punteroTarea ++;
         }
+        this.estados= punteroTarea;
+        this.setMaxtiempoConseguido();
         return true;
     }
-    
-	/*
-	Primero, ningun procesador podra ejecutar 2 tareas criticas. 
-	Segundo, los procesadores no refrigerados no podran dedicar mas de X tiempo de ejecución a 
-	las tareas asignadas. El tiempo X sera un parametro establecido por el usuario al momento de 
-	solicitar la asignacion de las tareas a los procesadores.
-	*/
-	private boolean addTareaAProcesador(Tarea tarea,Procesador proc, int x ){
-		if((!proc.isMaxTareasCriticas()) || (!tarea.isEs_critica())){
-			if(proc.isEsta_refrigerado()){
-				return true;
-			}else{
-				if(proc.getCarga_total()+tarea.getTiempo_ejecucion() < x){
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
+    /* 
+    * el metodo ve en todos los porcesadores cual es la mejor opcion para agregar la tarea
+    * y al encontrarlo le pregunta a addTareaAProcesador si se puede agragar ahi
+    * y retorna la posicion el procesador elejido
+    */
     private int getProcesadorMejorOpcion(Tarea t,int x){
-        int menorTimepoEjecucucion= 0 ;
-        int posMejorProcesador= -1;
-        for (int i =0;i<procesadoresList.size(); i++) {
-            if(menorTimepoEjecucucion > procesadoresList.get(i).getCarga_total()){
-                if(addTareaAProcesador(t, procesadoresList.get(i),x)){
+        int posMejorProcesador = -1;
+        int MenorCargaProcesador = 0;
+        for (int i =0 ; i< this.procesadoresList.size() ;i++) {
+            if(MenorCargaProcesador >= procesadoresList.get(i).getCarga_total()){
+                if(this.isTareaAProcesador(t, procesadoresList.get(i), x)){
                     posMejorProcesador = i;
-                    menorTimepoEjecucucion= this.procesadoresList.get(i).getCarga_total();
+                    MenorCargaProcesador = this.procesadoresList.get(i).getCarga_total();
+                    
                 }
-            }  
+            
+            }
+        
         }
         return posMejorProcesador;
+    }
+
+    /*
+    Primero, ningun procesador podra ejecutar 2 tareas criticas. 
+    Segundo, los procesadores no refrigerados no podran dedicar mas de X tiempo de ejecución a 
+    las tareas asignadas. El tiempo X sera un parametro establecido por el usuario al momento de 
+    solicitar la asignacion de las tareas a los procesadores.
+    */
+    private boolean isTareaAProcesador(Tarea tarea,Procesador proc, int x ){
+        
+        if(tarea.isEs_critica() && proc.isMaxTareasCriticas()){
+            return false;
+        }else{
+            
+            if(proc.isEsta_refrigerado()){
+                return true;
+            }else{
+                
+                if((proc.getCarga_total() + tarea.getTiempo_ejecucion()) > x){
+                    return false;
+                }else{
+                    return true;
+                }
+            
+            }
+        
+        }
+    
     }
 
 }

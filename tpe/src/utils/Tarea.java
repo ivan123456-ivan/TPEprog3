@@ -1,8 +1,8 @@
 package utils;
 
 public class Tarea {
+    private String id, nombre;
     private int tiempo_ejecucion;
-    private String nombre, id;
     private boolean es_critica;
     private int prioridad;
 
@@ -57,11 +57,15 @@ public class Tarea {
         this.es_critica = es_critica;
     }
 
-
     @Override
+    public String toString() {
+        return "Tarea [id="+ id + "]";
+    }
+
+    /* @Override
     public String toString() {
         return "Tarea [id="+ id +"tiempo_ejecucion=" + tiempo_ejecucion + ", nombre=" + nombre + ", es_critica="
                 + es_critica + ", prioridad=" + prioridad + "]";
-    }
+    } */
 
 }
