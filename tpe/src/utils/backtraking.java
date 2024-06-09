@@ -82,11 +82,10 @@ public class Backtraking {
 	}
 
 	private void solution(LinkedList<Integer> solutionTemp, LinkedList<Tarea> tareasTemp, LinkedList<Integer> criticXproc, LinkedList<Integer> tiempoXproc, int maxC, int maxT) {
-		//System.out.println(tiempoXproc);
 		boolean found= false; // (；一_一)
 		if (tareasTemp.size()!= 0) {
 			for(int i= 0; i < this.procesadorList.size(); i++) {
-				if (criticXproc.get(i)!= maxC && (this.procesadorList.get(i).isEsta_refrigerado() || (tiempoXproc.get(i) + tareasTemp.getLast().getTiempo_ejecucion()) <= maxT)) {
+				if (criticXproc.get(i) <= maxC && (this.procesadorList.get(i).isEsta_refrigerado() || (tiempoXproc.get(i) + tareasTemp.getLast().getTiempo_ejecucion()) <= maxT)) {
 					found= true;
 					//System.out.println(tareasTemp.size());
 					solutionTemp.set((tareasTemp.size()-1), i);
@@ -108,13 +107,7 @@ public class Backtraking {
 					}
 					tiempoXproc.set(i, tiempoXproc.get(i) - aux.getTiempo_ejecucion());
 					//System.out.println(tiempoXproc);
-				} /* else {
-					if (i == (this.procesadorList.size()-1) && this.estados == 0) { // (；一_一)
-						System.out.println(i);
-						System.out.println(tareasTemp.getLast());
-						this.tarea_E= tareasTemp.getLast();
-					}
-				} */
+				}
 			}
 			if (!found) { // (；一_一)
 				//System.out.println(tareasTemp.getLast());
@@ -134,7 +127,6 @@ public class Backtraking {
 				for (int i3= 0; i3< solutionTemp.size();i3++) {
 					this.solucionList.set(i3, solutionTemp.get(i3));
 					this.minTiempo= maxTiempo;
-					System.out.println(tiempoXproc);
 				}
 			}
 		}

@@ -8,24 +8,24 @@ public class Greedy {
     private int estados;
     private int MaxtiempoConseguido;
 
-    public int getMaxtiempoConseguido() {
-        return MaxtiempoConseguido;
-    }
-
-    private void setMaxtiempoConseguido() {
-        for (Procesador procesador : procesadoresList) {
-            if(procesador.getCarga_total()>this.MaxtiempoConseguido){
-                this.MaxtiempoConseguido = procesador.getCarga_total();
-            }
-        }
-    }
-
+    
     public Greedy(LinkedList<Tarea> tareasList, LinkedList<Procesador> procesadoresList) {
         this.tareasList = tareasList;
         this.procesadoresList = procesadoresList;
         this.estados = 0;
         this.MaxtiempoConseguido =-1;
-    }
+        }
+            public int getMaxtiempoConseguido() {
+                return MaxtiempoConseguido;
+            }
+        
+            private void setMaxtiempoConseguido() {
+                for (Procesador procesador : procesadoresList) {
+                    if(procesador.getCarga_total()>this.MaxtiempoConseguido){
+                        this.MaxtiempoConseguido = procesador.getCarga_total();
+                    }
+                }
+            }
 
     public LinkedList<Tarea> getTareasList() {
         return tareasList;

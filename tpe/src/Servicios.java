@@ -6,6 +6,7 @@ import java.util.List;
 
 import utils.Backtraking;
 import utils.CSVReader;
+import utils.Greedy;
 import utils.Procesador;
 import utils.Tarea;
 
@@ -15,12 +16,13 @@ import utils.Tarea;
  * de implementación.
  */
 public class Servicios {
-	private List<Procesador> procesadoresList;//
+	private LinkedList<Procesador> procesadoresList;//
 	private HashMap<String, Tarea> tareasHash;//se usa para servicio 1
 	private LinkedList<Tarea> listaTareas;// se usa para el servicio 3 y backtraking
 	private LinkedList<Tarea> tareasCriticasListtrue;//se usa para servicio 2
 	private LinkedList<Tarea> tareasCriticasListFalse;//se usa para servicio 2
 	private Backtraking back;//= new Backtraking(this.procesadoresList, this.listaTareas);
+	private Greedy greedy;
 
 	
 	/*
@@ -40,6 +42,7 @@ public class Servicios {
 		this.cargarProcesadoresList(reader.getProcesadores());
 		this.cargarTareasHash(reader.getTareas());
 		this.cargartareasLinkedtrueAndFalse(reader.getTareas());
+		this.greedy = new Greedy(this.listaTareas, this.procesadoresList);
 	}
 	private void cargaraListaTarea(List<Tarea> aux){
 		for (Tarea tarea : aux) {
@@ -123,4 +126,23 @@ public class Servicios {
 		return 0;
 	}
 
+	public boolean getSolucionGreedy(int x){
+		return this.greedy.getSolucion(x);
+
+	}
+
+	public int getEstadosGreedy(){
+		return this.greedy.getEstados();
+	}
+
+	public int getMaxtiempoConseguido(){
+		return this.greedy.getMaxtiempoConseguido();
+	}
+	
+	public void getSolucionList(){
+		LinkedList<Procesador> aux = this.greedy.getProcesadoresList();
+		for (Procesador procesador : aux) {
+			System.out.println(procesador);
+		}
+	}
 }
