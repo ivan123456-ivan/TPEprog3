@@ -51,7 +51,7 @@ public class Greedy {
     }
     /* 
      * ESTRATEGIA
-     * planteamos hacer una estrategia en la cual el algoritmo va aniadiendo tareas en 
+     * planteamos hacer una estrategia en la cual el algoritmo va añadiendo tareas en 
      * el procesador con menos carga asi se intenta lograr el menor tiempo de ejecucion entre todos
      * los procesasdores
      */
