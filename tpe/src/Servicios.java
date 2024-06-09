@@ -104,39 +104,4 @@ public class Servicios {
 		return aux;
 	}
 
-	public List<Procesador> servicio_backtraking(int maxC, int maxT) {
-		this.back= new Backtraking(this.procesadoresList, this.listaTareas);
-		//back.foundSolution(maxC, maxT);
-		back.doSolution(maxC, maxT);
-		return new LinkedList<>(this.procesadoresList);
-	}
-
-	public Integer getEstadosBacktraking() {
-		if (back!= null) {
-			return back.getEstados();
-		}
-		return 0;
-	}
-
-	public Integer getMinTiempoBacktraking(){
-		if (back!= null) {
-			return back.getMinTiempo();
-		}
-		return 0;
-	}
-
-
-	public LinkedList<Procesador> Greedy(int x){
-		this.greedy.getSolucion(x);
-		return greedy.getProcesadoresList();
-	}
-	public int getEstadosGreedy(){
-		return this.greedy.getEstados();
-	}
-	public int getMaxtiempoConseguidoGreedy(){
-		return this.greedy.getMaxtiempoConseguido();
-	}
-
-
-
 }
