@@ -136,8 +136,8 @@ public class Servicios {
 		return 0;
 	}*/
 
-	public void servicio_backtraking() {
-		this.back = new Back(100);
+	public void servicio_backtraking(int tiempoMaximoNoRefrigerado) {
+		this.back = new Back(tiempoMaximoNoRefrigerado);
 		this.back.backtracking(listaTareas, procesadoresList);
 		this.back.imprimirSolucion();
 	}

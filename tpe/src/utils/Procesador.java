@@ -39,10 +39,12 @@ public class Procesador {
         if (tarea.isEs_critica()) {
             this.tareasCriticas++;
         }
+        
     }
-
+    
     public boolean puedeAgregarTarea(Tarea tarea, int tiempoMaximoNoRefrigerado) {
         if (tarea.isEs_critica() && tareasCriticas >= 2){
+            System.out.println(this.tareasCriticas);
             return false;
         } 
         if (!this.esta_refrigerado && (tiempoTotal + tarea.getTiempo_ejecucion()) > tiempoMaximoNoRefrigerado){
@@ -53,7 +55,7 @@ public class Procesador {
 
     public void removeTarea(Tarea t) {
         this.tareas_cargadas.remove(t);
-        this.setTiempoTotal(this.getTiempoTotal() - t.getTiempo_ejecucion());
+        this.tiempoTotal -= t.getTiempo_ejecucion();
         if (t.isEs_critica()) {
             this.tareasCriticas--;
         }
