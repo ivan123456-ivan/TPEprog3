@@ -150,24 +150,11 @@ public class Servicios {
 	 * sea posible ingresar la tarea en ese procesador,
 	 * luego la ingresa y sigrue el mismo proceso para las demas tareas 
 	 */
-	public boolean getSolucionGreedy(int x){
+	public void getSolucionGreedy(int x){
 		this.greedy = new Greedy(this.listaTareas, this.procesadoresList);
-		return this.greedy.getSolucion(x);
-
+		this.greedy.getSolucion(x);
+		this.greedy.imprimirSolucion();
 	}
 
-	public int getEstadosGreedy(){
-		return this.greedy.getEstados();
-	}
 
-	public int getMaxtiempoConseguido(){
-		return this.greedy.getMaxtiempoConseguido();
-	}
-	
-	public void getSolucionList(){
-		LinkedList<Procesador> aux = this.greedy.getProcesadoresList();
-		for (Procesador procesador : aux) {
-			System.out.println(procesador);
-		}
-	}
 }
