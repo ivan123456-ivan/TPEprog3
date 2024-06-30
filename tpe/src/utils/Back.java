@@ -20,8 +20,8 @@ public class Back {
     }
 
     private void backtracking(List<Tarea> tareas, List<Procesador> procesadores, int tareaIndex) {
-        estadosGenerados++;
         if (tareaIndex == tareas.size()) {
+            estadosGenerados++;
             int tiempoActual = obtenerTiempoMaximo(procesadores);
             if (tiempoActual < tiempoMaximo) {
                 tiempoMaximo = tiempoActual;
