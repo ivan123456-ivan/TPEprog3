@@ -88,7 +88,7 @@ public class Greedy {
     }
 
     public void imprimirSolucion() {
-        System.out.println("Solución Backtracking:");
+        System.out.println("Solución greedy:");
         for (Procesador procesador : procesadoresList) {
             System.out.println("Procesador " + procesador.getId() + ":");
             for (Tarea tarea : procesador.getTareas_cargadas()) {
