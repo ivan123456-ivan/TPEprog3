@@ -9,9 +9,8 @@ public class Procesador {
     private int anio_funcionamiento;
     /* cada nodo agregado a la list seria un estado solucion posible dentro del problema */
     private LinkedList<Tarea> tareas_cargadas;//1
-    private int carga_total;//2
-    private boolean MaxTareasCriticas;//3
-    private final int MaxCriticas =2; 
+    private int tiempoTotal;
+    private int tareasCriticas;
     /*
      * agregamos las variables 1,2,3 para poder cargar tareas a los procesadores 
      * llevar la cuenta de la carga con la variable 2
@@ -23,12 +22,12 @@ public class Procesador {
         this.esta_refrigerado = esta_refrigerado;
         this.anio_funcionamiento = anio_funcionamiento;
         this.tareas_cargadas= new LinkedList<>();
-        this.carga_total = 0;
-        this.MaxTareasCriticas = false;
+        this.tiempoTotal = 0;
+        this.tareasCriticas = 0;
     }
 
     public LinkedList<Tarea> getTareas_cargadas() {
-        return tareas_cargadas;
+        return new LinkedList<>(tareas_cargadas);
     }
     /*
      * al cargar una tarea lo que hacemos es recalcular todos los valores correspondientes 
@@ -36,19 +35,39 @@ public class Procesador {
     */
     public void addTareas_cargadas(Tarea tarea) {
         this.tareas_cargadas.add(tarea);
-        this.setCarga_total(tarea.getTiempo_ejecucion());
-        this.setMaxTareasCriticas();
+        this.tiempoTotal += tarea.getTiempo_ejecucion();
+        if (tarea.isEs_critica()) {
+            this.tareasCriticas++;
+        }
     }
 
-    public int getCarga_total() {
-        return this.carga_total;
+    public boolean puedeAgregarTarea(Tarea tarea, int tiempoMaximoNoRefrigerado) {
+        if (tarea.isEs_critica() && tareasCriticas >= 2){
+            return false;
+        } 
+        if (!this.esta_refrigerado && (tiempoTotal + tarea.getTiempo_ejecucion()) > tiempoMaximoNoRefrigerado){
+            return false;  
+        }
+        return true;
     }
 
-    public void setCarga_total(int cargar) {
-        this.carga_total = this.carga_total + cargar;
+    public void removeTarea(Tarea t) {
+        this.tareas_cargadas.remove(t);
+        this.setTiempoTotal(this.getTiempoTotal() - t.getTiempo_ejecucion());
+        if (t.isEs_critica()) {
+            this.tareasCriticas--;
+        }
     }
 
-    public boolean isMaxTareasCriticas() {
+    public int getTiempoTotal() {
+        return this.tiempoTotal;
+    }
+
+    public void setTiempoTotal(int cargar) {
+        this.tiempoTotal = this.tiempoTotal + cargar;
+    }
+
+    /*public boolean isMaxTareasCriticas() {
         return MaxTareasCriticas;
     }
 
@@ -64,7 +83,7 @@ public class Procesador {
                 cont ++;
             }
         }
-    }
+    }*/
 
 
     public String getCodigo() {
@@ -102,6 +121,18 @@ public class Procesador {
     @Override
     public String toString() {
         return "Procesador [id=" + id + ", tareas_cargadas=" + tareas_cargadas + "]";
+    }
+
+    public void setTareas_cargadas(LinkedList<Tarea> tareas_cargadas) {
+        this.tareas_cargadas = tareas_cargadas;
+    }
+
+    public int getTareasCriticas() {
+        return tareasCriticas;
+    }
+
+    public void setTareasCriticas(int tareasCriticas) {
+        this.tareasCriticas = tareasCriticas;
     }
 
     /* @Override

@@ -6,8 +6,6 @@ public class Tarea {
     private boolean es_critica;
     private int prioridad;
 
-
-
     public Tarea(int tiempo_ejecucion, String nombre, String id, boolean es_critica, int prioridad) {
         this.tiempo_ejecucion = tiempo_ejecucion;
         this.nombre = nombre;
@@ -15,7 +13,6 @@ public class Tarea {
         this.es_critica = es_critica;
         this.prioridad = prioridad;
     }
-
 
     public int getPrioridad() {
         return prioridad;
@@ -59,13 +56,16 @@ public class Tarea {
 
     @Override
     public String toString() {
-        return "Tarea [id="+ id + "]";
+        return "Tarea [id=" + id + "]";
     }
 
-    /* @Override
-    public String toString() {
-        return "Tarea [id="+ id +"tiempo_ejecucion=" + tiempo_ejecucion + ", nombre=" + nombre + ", es_critica="
-                + es_critica + ", prioridad=" + prioridad + "]";
-    } */
+    /*
+     * @Override
+     * public String toString() {
+     * return "Tarea [id="+ id +"tiempo_ejecucion=" + tiempo_ejecucion + ", nombre="
+     * + nombre + ", es_critica="
+     * + es_critica + ", prioridad=" + prioridad + "]";
+     * }
+     */
 
 }
