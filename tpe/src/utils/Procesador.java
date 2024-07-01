@@ -44,7 +44,6 @@ public class Procesador {
     
     public boolean puedeAgregarTarea(Tarea tarea, int tiempoMaximoNoRefrigerado) {
         if ((tarea.isEs_critica()) && (tareasCriticas >= 2)){
-            System.out.println(this.tareasCriticas);
             return false;
         } 
         if (!this.esta_refrigerado) {

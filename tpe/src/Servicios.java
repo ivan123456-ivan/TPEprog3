@@ -116,26 +116,8 @@ public class Servicios {
 	primera tarea hasta la ultima al procesador 1, luego la ultima a procesador 2,3,etc. luego vuelve a la anteultima tarea, donde pasa al procesador 2, luego llama a la ultima tarea y
 	prueva todos los procesadores denuevo etc 
 	 */
-	/*public List<Procesador> servicio_backtraking(int maxC, int maxT) {
-		this.back= new Backtraking(this.procesadoresList, this.listaTareas);
-		back.doSolution(maxC, maxT);
-		return new LinkedList<>(this.procesadoresList);
-	}
-	public Integer getEstadosBacktraking() {
-		if (back!= null) {
-			return back.getEstados();
-		}
-		return 0;
-	}
 
-	public Integer getMinTiempoBacktraking(){
-		if (back!= null) {
-			return back.getMinTiempo();
-		}
-		return 0;
-	}*/
-
-	public void servicio_backtraking(int tiempoMaximoNoRefrigerado) {
+	public void getSolucionBacktracking(int tiempoMaximoNoRefrigerado) {
 		this.back = new Back(tiempoMaximoNoRefrigerado);
 		this.back.backtracking(listaTareas, procesadoresList);
 		this.back.imprimirSolucion();
