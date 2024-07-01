@@ -47,8 +47,10 @@ public class Procesador {
             System.out.println(this.tareasCriticas);
             return false;
         } 
-        if ((!this.esta_refrigerado) && ((tiempoTotal + tarea.getTiempo_ejecucion()) > tiempoMaximoNoRefrigerado)){
+        if (!this.esta_refrigerado) {
+            if((tiempoTotal + tarea.getTiempo_ejecucion()) > tiempoMaximoNoRefrigerado){
             return false;  
+            }
         }
         return true;
     }

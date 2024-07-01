@@ -11,6 +11,6 @@ public class Main {
 		
 		//System.out.println(servicios.getProcesadores());
 
-		servicios.getSolucionGreedy(0);
+		servicios.getSolucionGreedy(100);
 	}
 }
