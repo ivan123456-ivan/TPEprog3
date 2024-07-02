@@ -12,6 +12,6 @@ public class Main {
 		
 		servicios.getSolucionBacktracking(100);
 
-		//servicios.getSolucionGreedy(100);
+		//servicios.getSolucionGreedy(70);
 	}
 }

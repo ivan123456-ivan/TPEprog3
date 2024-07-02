@@ -60,7 +60,12 @@ public class Greedy {
             if(this.mejorprocesador(t, x)!= -1){
                 procesadoresList.get(this.mejorprocesador(t, x)).addTareas_cargadas(t);
             }else{
-                System.out.println("no se pudo agregar esta tarea = " + t.getId());
+                for (Procesador procesador : procesadoresList) {
+                    procesador.setTareas_cargadas(new LinkedList<>());
+                }
+                this.candidatos = 0;
+                this.MaxtiempoConseguido = 0;
+                return;
             }
             candidatos ++;
         }

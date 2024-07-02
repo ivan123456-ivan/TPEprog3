@@ -20,8 +20,8 @@ public class Back {
     }
 
     private void backtracking(List<Tarea> tareas, List<Procesador> procesadores, int tareaIndex) {
+        estadosGenerados++;
         if (tareaIndex == tareas.size()) {
-            estadosGenerados++;
             int tiempoActual = obtenerTiempoMaximo(procesadores);
             if (tiempoActual < tiempoMaximo) {
                 tiempoMaximo = tiempoActual;
@@ -61,6 +61,10 @@ public class Back {
 
     public void imprimirSolucion() {
         System.out.println("Solución Backtracking:");
+        if (mejorSolucion == null) {
+            System.out.println("No existe solución posible.");
+            return;
+        }
         for (Procesador procesador : mejorSolucion) {
             System.out.println("Procesador " + procesador.getId() + ":");
             for (Tarea tarea : procesador.getTareas_cargadas()) {

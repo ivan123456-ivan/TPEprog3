@@ -110,15 +110,18 @@ public class Servicios {
 
 	/* 
 		ESTRATEGIA Backtraking
-	 * Se recorre una lista de tareas temporal donde cada posicion corresponde a la misma posicion de la lista tareas, el valor que guarda esta lista temporal (solucionList) 
-	es la posicion de la lista procesadorList, cada tarea de la lista temporal es asignada en todos los procesadores que se permita de forma recursiva, donde hay un for que intenta
-	asignar la tarea actual a cada procesador y a su vez llamar al mismo metodo con la tarea siguiente, donde va a hacer lo mismo, de esta forma recorreria la asignacion de tareas como:
-	primera tarea hasta la ultima al procesador 1, luego la ultima a procesador 2,3,etc. luego vuelve a la anteultima tarea, donde pasa al procesador 2, luego llama a la ultima tarea y
-	prueva todos los procesadores denuevo etc 
+	 *
+	 *  Se utiliza la lista de tareas y de procesadores dadas por los archivos "Procesadores.csv" y "Tareas.csv". Se inicializa tomando
+	 * la tarea con index 0 dentro de la lista de tareas y se consulta a cada procesador si se puede asignar esa tarea, 
+	 * en caso de que pueda se la asigna a ese procesador y vuelve a llamar a backtracking sobre la tarea siguiente. 
+	 * De esta forma intenta asignar todas las tareas a cada procesador. Cuando se llega a la última tarea termina y se obtiene 
+	 * el tiempo máximo que tardan los procesadores en ejecutar todas las tareas. Luego se crea una copia de la mejor 
+	 * solución obtenida (para que no se altere la lista original de procesadores) y se guarda en un atributo. 
+	 * Luego se imprime el estado de la solución y se muestra el tiempo máximo de ejecución y los candidatos conciderados.
 	 */
 
-	public void getSolucionBacktracking(int tiempoMaximoNoRefrigerado) {
-		this.back = new Back(tiempoMaximoNoRefrigerado);
+	public void getSolucionBacktracking(int x) {
+		this.back = new Back(x);
 		this.back.backtracking(listaTareas, procesadoresList);
 		this.back.imprimirSolucion();
 	}
@@ -126,16 +129,13 @@ public class Servicios {
 
 	/* 
 	 * ESTRATEGIA Greedy 
-	 * por cada tarea se accede a un metodo que va a buscar entre todos los procesadores 
-	 * cual es el que tiene menos cargar y luego accede a otro metodo que confirna que 
-	 * sea posible ingresar la tarea en ese procesador,
-	 * luego la ingresa y sigrue el mismo proceso para las demas tareas 
+	 * por cada tarea se accede a un metodo que busca entre todos los procesadores si se puede agregar la tarea a ese procesador 
+	 * y si es la mejor opcion que se encuentra en el momento, y retorna la pocicion del procesador, si no encuentra un procesador 
+	 * retorna un valor no apto y retorna datos que destacan que no encontro solucion 
 	 */
 	public void getSolucionGreedy(int x){
 		this.greedy = new Greedy(this.listaTareas, this.procesadoresList);
 		this.greedy.getSolucion(x);
 		this.greedy.imprimirSolucion();
 	}
-
-
 }
